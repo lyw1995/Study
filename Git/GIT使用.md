@@ -1,6 +1,14 @@
 # Git 的使用  7/6/2015 5:31:00 PM 
+## 学习地址
+*  掌握Git的教程 , [Git community book 中文版](http://gitbook.liuhui998.com/index.html)
+*  廖雪峰Git教材 , [廖雪峰大神Git讲解](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000) 
+*  Git 初体验   [Git 初体验](http://www.cnblogs.com/BeginMan/p/3543240.html)
+*  csdn博客  [版本控制](http://blog.csdn.net/hudashi/article/category/1122124)
+*  高富帅玩Git [高富帅玩 git](http://mux.alimama.com/posts/711)
 
-##1. 下载安装, 见 [廖雪峰大神Git讲解](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000) 和 [Git 有mac安装方式](http://www.cocoachina.com/bbs/read.php?tid=200557)
+##1. 下载安装, 见  [Git 有mac安装方式](http://www.cocoachina.com/bbs/read.php?tid=200557)
+
+
 ##2. 安装的配置
 	想在哪个目录初始化仓库前使用命令初始化(生成.git):
 			git init
@@ -9,8 +17,6 @@
 	git --global user.email "email"
 	git --global core.autocrlf false
 
-    
-    
 
 ##3. 常用命令
 > * 克隆:&emsp;&emsp;git clone
@@ -52,7 +58,7 @@
 >  .git是Git的版本库,存在一个很重要的stage(Index)暂存区,当然,默认分支就是master,以及指向的一个HEAD指针,所以，HEAD指向的就是当前分支
 > > add只是把文件修改添加到暂存区,commit才会把暂存区所有内容提交至当然分支
 
-##5. 生成RSA
+##5. 生成RSA  [SSH-KEYGEN参数详解](http://killer-jok.iteye.com/blog/1853451)
 >  生成github的rsa : ssh-keygen -t rsa -C "email"
 
 ##6. 合并的细节 (冲突)
@@ -76,3 +82,6 @@
 * 配置别名  git config --global alias.别名 [指令]，指令语句加定界符'',如'reset HEAD'
 * 很牛的显示log得别名配置： git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 * 当前仓库的配置文件再.git/config ，当前用户配置再.gitconfig
+
+## 10. PATCH (补丁)
+*  见教材  [PATCH教材](http://blog.csdn.net/hudashi/article/details/7669468)
