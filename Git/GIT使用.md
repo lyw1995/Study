@@ -5,6 +5,7 @@
 *  Git 初体验   [Git 初体验](http://www.cnblogs.com/BeginMan/p/3543240.html)
 *  csdn博客  [版本控制](http://blog.csdn.net/hudashi/article/category/1122124)
 *  高富帅玩Git [高富帅玩 git](http://mux.alimama.com/posts/711)
+*  常用命令整理 [常用命令整理](http://justcoding.iteye.com/blog/1830388)
 
 ##1. 下载安装, 见  [Git 有mac安装方式](http://www.cocoachina.com/bbs/read.php?tid=200557)
 
@@ -25,7 +26,7 @@
 > * 添加并提交:&emsp;&emsp;git commit -a -m "info"
 > * 状态:&emsp;&emsp;git status
 > * 不同:&emsp;&emsp;git diff [filename] ,每次先查看再add再commit
-> * Log:&emsp;&emsp; git log [--pretty=oneline] [--abbrev-commit]查看分区历史 [-[index]（index表示第几个）]
+> * Log:&emsp;&emsp; git log [--pretty=oneline] [--abbrev-commit]查看合并历史 [-[index]（index表示第几个）]
 > * 回退:&emsp;&emsp; git reset --hard HEAD^(^代表上一个,可以^^ ,当然也可以HEAD~100), 命令行窗口关闭无法找回,通过git reflog 命令
 > * 前进:&emsp;&emsp;git reflog
 > * 撤销修改:&emsp;&emsp;git checkout -- [fielname]
