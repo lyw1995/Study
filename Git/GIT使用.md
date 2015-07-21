@@ -5,6 +5,7 @@
 *  Git 初体验   [Git 初体验](http://www.cnblogs.com/BeginMan/p/3543240.html)
 *  csdn博客  [版本控制](http://blog.csdn.net/hudashi/article/category/1122124)
 *  高富帅玩Git [高富帅玩 git](http://mux.alimama.com/posts/711)
+*  常用命令整理 [常用命令整理](http://justcoding.iteye.com/blog/1830388)
 
 ##1. 下载安装, 见  [Git 有mac安装方式](http://www.cocoachina.com/bbs/read.php?tid=200557)
 

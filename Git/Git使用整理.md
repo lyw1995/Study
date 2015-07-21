@@ -31,4 +31,5 @@
  > 4.提交到版本库 [(git commit详解)](http://blog.csdn.net/hudashi/article/details/7664409)
 >>      1. git commit -a -m "注释" (-a,除了untracked,都提交 ,-m 注释 不加每次都谈vim编辑).
 >>      2. git commit -amend 修改本地最后一次提交的注释,改别的话,就得reset咯
->>      3. git blame [-L lineS(行开始),lineE(行结束)] [filename], 查看提交的信息,作者之类的 
+>>      3. git blame [-L lineS(行开始),lineE(行结束)] [filename] 查看提交的信息,作者之类的 
+>>     
