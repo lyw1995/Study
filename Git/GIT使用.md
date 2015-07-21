@@ -41,7 +41,7 @@
 > * 合并分支:&emsp;&emsp;git merge [branchname] [--no-ff(禁用Fast forward) -m "info"]
 > * 删除分支:&emsp;&emsp;git branch -d [branchname] (-d是删除 -D是强行删除，（没有合并的）)
 > * 存储区:&emsp;&emsp;git stash（存储） 和 git stash list（查看）
-> * 清除存储区:&emsp;&emsp;git stach clear
+> * 清除存储区:&emsp;&emsp;git stash clear
 > * 恢复但不删除内容:&emsp;&emsp;git stash apply 需要手动删除git stash drop 可以指定stash@{index}，指定某个储存区
 > * 恢复且删除内容:&emsp;&emsp;git stash pop
 > * 查看远程分支，或者详细信息:&emsp;&emsp;git remote 或者 git remote -v
