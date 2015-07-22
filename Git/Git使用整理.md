@@ -23,8 +23,10 @@
 >>      1. git diff [file|dir] 查看所有差异
 >>      2. git diff --stat [file|dir] 统计该文件/文件夹的所有操作统计
 >>      3. git diff $id1 $id2 比较两次提交的差异
->>      4. git diff 分支1 分支2 比较两个分支的差异
+>>      4. git diff 分支1 分支2 比较两个分支的差异 等同于 git diff b1..b2，如果是other的话,git diff b1...o1 (三个点)
 >>      5. git diff --staged 比较暂存区与工作区的差异,与--cached 同义
+>>      6. git diff HEAD filename  比较HEAD中文件与工作区文件的差异
+>>      7. git diff HEAD 比较HEAD提交的与当前工作区的差异
  
  > 3.添加文件/文件夹  [(git add详解)](http://blog.csdn.net/hudashi/article/details/7664374) ------- [(高富帅们的Git技巧)](http://mux.alimama.com/posts/711)
 >>      1. git add . | git add -A  提交全部
@@ -43,7 +45,10 @@
 >>      1.git mv 源文件/文件夹名  新文件/文件夹名
  
 > 6.撤销文件修改
->>      1. 
+>>      1. git checkout  -- filename  回滚暂存区的提交文件，
+>>      2. git checkout  HEAD(master~) filename  回滚某次提交的文件，可以提交指针，也可以分支提交指针
+
+
 > 7.提交到版本库 [(git commit详解)](http://blog.csdn.net/hudashi/article/details/7664409)
 >>      1. git commit -a -m "注释" (-a,除了untracked,都提交 ,-m 注释 不加每次都谈vim编辑).
 >>      2. git commit -amend 修改本地最后一次提交的注释,改别的话,就得reset咯
@@ -115,7 +120,7 @@
 >>      4. git rebase --abort 取消此次合并
 
 > 7.撤销合并
->>      1. git reset --hard HEAD(HEAD~ 上上次, HEAD~n(n代表n次)) 撤销当前合并 
+>>      1. git reset --hard HEAD(HEAD~ 上上次, HEAD~n(n代表n次)) 撤销当前合并,暂存区，工作区都修改，指针指向改变
 
 ## 5.合并冲突解决
 > 1.查看差异修改
@@ -128,14 +133,39 @@
 
 ## 6.Git的维护(gc 与 fsck)
 
+## 7.Reset (回滚提交) 默认是HEAD
+> 1.充值
+>>     1.
+
+## 8.Revert (撤销) 默认是HEA
+> 1.充值
+>>     1.
+
+## 9.Checkout (检出， 强大)，默认是暂存区
+> 1.充值
+>>     1.
+
+## 10.Stash (暂存区)
+
+## 11.配置忽略文件
+
+## 12.自定义Git配置
+
+## 注：
+>  1.工作区，暂存区，版本库的区别
+> > 版本库：      当前仓库下，如果没有任何的提交，那么版本库就是对应上次提交后的内容。
+
+> > 暂存区：      英文叫stage, 或index。在版本库.git）目录下，有一个index文件。它实际上就是一个包含文件索引的目录树，像是一个虚拟的工作区。在这个虚拟工作区的目录树中，记录了文件名、文件的状态信息（时间戳、文件长度等），文件的内容并不存储其中，而是保存在Git对象库（.git/objects）中，文件索引建立了文件和对象库中对象实体之间的对应。如果当前仓库，有文件更新，并且使用gitadd 命令，那么这些更新就会出现在暂存区中。
+
+>> 工作区：       我们会想当然的认为，当前仓库所在目录就是我们的工作区，其实这是不完全正确的。在当前仓库中，新增，更改，删除文件这些动作，都发生在工作区里面
+
+
 
 http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/
 
 http://blog.haohtml.com/archives/11464
 
 http://blog.csdn.net/hudashi/article/details/7664460
-
-
 
 
 
