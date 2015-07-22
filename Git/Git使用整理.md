@@ -68,6 +68,12 @@
 >>      15. git log --tags [tagname] 查看标签的提交日志
 >>      16. git log --date-order 显示提交日志的顺序主要按提交日期来排序,--topo-order 提交(commits)按拓朴顺序来显示(就是子提交在它们的父提交前显示)
 
+> 2.reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录  [查看csdn博客讲解](http://blog.csdn.net/ibingow/article/details/7541402)
+>>      1. git reflog 查看所有分支操作记录, 常用逆转操作，取得HEAD@{index}进行追溯
+
+## 4. 分支(branch)
+> 
+
 
 
 
