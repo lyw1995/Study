@@ -39,10 +39,12 @@
 >>      4. git rm --cached 从暂存区删除,保留在工作区
 >>      5. git clean -fd (会删除所有untracted文件,删除空目录,慎用)
 
->5.更名文件/文件夹
+> 5.更名文件/文件夹
 >>      1.git mv 源文件/文件夹名  新文件/文件夹名
  
- > 6.提交到版本库 [(git commit详解)](http://blog.csdn.net/hudashi/article/details/7664409)
+> 6.撤销文件修改
+>>      1. 
+> 7.提交到版本库 [(git commit详解)](http://blog.csdn.net/hudashi/article/details/7664409)
 >>      1. git commit -a -m "注释" (-a,除了untracked,都提交 ,-m 注释 不加每次都谈vim编辑).
 >>      2. git commit -amend 修改本地最后一次提交的注释,改别的话,就得reset咯
 >>      3. git blame [-L lineS(行开始),lineE(行结束)] [filename] 查看提交的信息,作者之类的 
@@ -67,15 +69,71 @@
 >>      14. git log --log-size 查看日志大小
 >>      15. git log --tags [tagname] 查看标签的提交日志
 >>      16. git log --date-order 显示提交日志的顺序主要按提交日期来排序,--topo-order 提交(commits)按拓朴顺序来显示(就是子提交在它们的父提交前显示)
+>>      17. git log --branches="分支" 可以查看分支的提交日志
+>>      18. gitk  打开图形化界面查看log
+>>      19. git log 分支1..分支2  查看该两个分支还没有合并的提交
+
 
 > 2.reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录  [查看csdn博客讲解](http://blog.csdn.net/ibingow/article/details/7541402)
 >>      1. git reflog 查看所有分支操作记录, 常用逆转操作，取得HEAD@{index}进行追溯
+>>      2. git reflog show 与git reflog 同义
 
-## 4. 分支(branch)
-> 
+## 4. 分支(branch)  [分支详解](http://blog.jobbole.com/25877/)
+> 1.查看
+>>      1. git branch 查看本地分支列表
+>>      2. git branch -v 查看所有分支最后一次提交历史
+>>      3. git branch -r 查看远程分支
+>>      4. git branch -a 查看本地,远程分支
+
+> 2.添加分支
+>>      1. git branch [branchname] 创建本地分支
+>>      2. git push origin [branchname] 创建远程分支
+>>      3. git branch [新分支] commit_id 从已删除回复分支
+
+> 3.更名,删除
+>>      1. git branch -d [branchname] 删除本地分支
+>>      2. git branch -D [branchname] 强行删除没有合并的分支
+>>      3. git push origin :[branchname] 删除远程分支(注意:(冒号后面接远程分支名))
+>>      4. git branch –m oldname newname 更名
+
+> 4.切换分支
+>>      1. git checkout [branchname] 切换分支
+>>      2. git checkout -b [branchname] 创建并切换分支
+>>      3. git checkout -b [分支名] [远程名]/[分支名] 1.6以上使用 git --track [远程]/[分支名] 本地的分支追踪远程仓库的分支,达到联系
+
+> 5.合并分支(merge)
+>>      1. git merge anothername 讲another合并到当前分支,Fast-forward,也就是直接把master指向dev的当前提交，所以合并速度非常快。
+>>      2. git merge --no-ff -m "comment" anothername,  禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。
+>>      3. git merge --squash 分支名   合并,但不记录合并记录,最好删除本地也删除远程,防止意外
+>>      3. git merge 分支1 分支2 ..    多路合并分支 
+
+> 6.衍合分支(rebase)
+>  注:
+>>      1. git rebase [branchname] 衍合其他分支
+>>      2. git rebase --continue 解决完冲突,注意必须标记该文件为解决,  就是继续合并
+>>      3. git rebase --skip 跳过此次合并
+>>      4. git rebase --abort 取消此次合并
+
+> 7.撤销合并
+>>      1. git reset --hard HEAD(HEAD~ 上上次, HEAD~n(n代表n次)) 撤销当前合并 
+
+## 5.合并冲突解决
+> 1.查看差异修改
+>>      1. git diff [--ours|--theirs] [文件名]  差异比较文件, (比较自己)|(比较合并的) 
+>>      2. vim 啥的编辑工具直接修改, 冲突的文件会有分支标识的,
+
+> 2.直接二选一
+>>      1. git checkout --ours 文件名 , 直接选择自己的
+>>      2. git chekcout --theirs 文件名 , 直接选择合并
+
+## 6.Git的维护(gc 与 fsck)
 
 
+http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/
 
+http://blog.haohtml.com/archives/11464
+
+http://blog.csdn.net/hudashi/article/details/7664460
 
 
 
