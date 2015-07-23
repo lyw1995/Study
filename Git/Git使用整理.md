@@ -47,7 +47,7 @@
 > 6.撤销文件修改
 >>      1. git checkout  -- filename  回滚暂存区的提交文件，
 >>      2. git checkout  HEAD(master~) filename  回滚某次提交的文件，可以提交指针，也可以分支提交指针
->>      3. 
+>>      3. git reset [-- | HEAD] filename ,不改变索引，改变工作区的文件状态，并不改变内容
 
 
 > 7.提交到版本库 [(git commit详解)](http://blog.csdn.net/hudashi/article/details/7664409)
@@ -57,7 +57,7 @@
 >>      4. git commit --allow-empty-message -m "" 空白的提交注释,是不是无语了
 
 
-## 3. 查看日志(log)
+## 3. 查看日志(log)和 查看个别的对象内容(show)
 > 1.查看提交日志 [(git log详解)](http://blog.csdn.net/hudashi/article/details/7451555)  [(git log简解)](http://gitbook.liuhui998.com/3_4.html)
 >>      1. git log  [$id] 查看所有提交的日志,指定ID,则从ID开始显示记录
 >>      2. git log --stat 查看每次提交的操作,例如删除,修改啥文件
@@ -83,6 +83,10 @@
 > 2.reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录  [查看csdn博客讲解](http://blog.csdn.net/ibingow/article/details/7541402)
 >>      1. git reflog 查看所有分支操作记录, 常用逆转操作，取得HEAD@{index}进行追溯
 >>      2. git reflog show 与git reflog 同义
+
+> 3.show 
+>>     1. git show [-- | HEAD | $id] ,查看当前后者某次提交的详细数据
+>>     2. git show --stat 若指定该参数，只显示操作详情，如删除几个文件，插入几个文件，不涉及主体内容
 
 ## 4. 分支(branch)  [分支详解](http://blog.jobbole.com/25877/)
 > 1.查看
@@ -112,7 +116,8 @@
 >>      1. git merge anothername 讲another合并到当前分支,Fast-forward,也就是直接把master指向dev的当前提交，所以合并速度非常快。
 >>      2. git merge --no-ff -m "comment" anothername,  禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。
 >>      3. git merge --squash 分支名   合并,但不记录合并记录,最好删除本地也删除远程,防止意外
->>      3. git merge 分支1 分支2 ..    多路合并分支 
+>>      4. git merge 分支1 分支2 ..    多路合并分支 
+>>      5. git merge $id ，再git fsck --lost-found 找的悬空commit对象，可以使用这个命令恢复,或者rebase
 
 > 6.衍合分支(rebase)
 >  注: 并不会生成新的节点,同时也能手动控制操作
@@ -132,19 +137,26 @@
 >>      2. git chekcout --theirs 文件名 , 直接选择合并
 
 ## 6.Git的维护(gc 与 fsck)
+> 1. 保证git良好的性能，git靠压缩历史信息来节约磁盘和内存空间.有时需要手动执行，也可以将自动关闭，配置一下即可
+>>      1. git gc  执行垃圾清理，如果配置了gc.pruneexpire，那么过期时间到了就将永久删除， 
+
+> 2. 保持git的可靠性,运行一些仓库的一致性检查, 如果有任何问题就会报告. 这项操作也有点耗时, 通常报的警告就是“悬空对象"
+>>      1. git fsck 悬空对象"(dangling objects)并不是问题, 最坏的情况只是它们多占了一些磁盘空间. 有时候它们是找回丢失的工作的最后一丝希望.
+>>      2. git fsck --lost-found 查看刚刚悬空对象中包括commit的，默认git fsck 是没有commit的
+>>      3. git fsck --unreachable 貌似与上面差不多
 
 ## 7.Reset (回滚提交) 默认是HEAD
-> 注: 重置一般用于重置暂存区,--hard特殊
+> 注: 重置一般用于重置暂存区,--hard特殊, 
 > 1.在reset可以遗弃不再使用的提交。执行遗弃时，需要根据影响的范围而指定不同的模式，可以指定是否复原索引或工作树的内容。
 >>     1. git reset --hard HEAD~ (撤销最近的提交,引用回退,工作区,暂存区也回退,git log查看不到,用reflog) 
 >>     2. git reset --soft HEAD~ (引用回退,但工作区内容不改变,暂存区回退,可再次checkout检出)
 >>     3. git reset --mixed HEAD~ (引用回退,但工作区内容不改变,暂存区回退,可再次checkout检出)
->>     4. git reset -- filename 从暂存区中取消该文件的改动,相当于add的方向操作
+>>     4. git reset -- filename 从暂存区中取消该文件的改动（内容不动）,相当于add的方向操作，不该变索引
 
 ## 8.Revert (撤销) 
 > 常用于回滚某个commit
 > 1.回滚commit
->>     1. git revert  [-- | commitid | HEAD],回滚某次提交,与本地工作区进行合并, 也许可能产生冲突,索引不改变,
+>>     1. git revert  [-- | commitid | HEAD],回滚某次提交,与本地工作区进行合并, 也许可能产生冲突,索引不改变,commit记录不改变
 
 ## 9.Checkout (检出， 强大)，默认是暂存区
 > 注: checkout常用于修改工作区, 改变暂存区,与工作区
@@ -154,14 +166,63 @@
 >>     3. git checkout 查看版本库,暂存区,工作区的差异
 >>     4. git checkout branchname HEAD filename 从某个分支某次提交检出某个文件
 >>     5. git checkout tagname 从当前分支上检出tag标识的版本
->>     6. git checkout 
+>>     6. git checkout "@{5}" 检出捡出第五次访问过的提交，同义与git checout HEAD@{5},是reglog 里面的提交记录
+
+> 2. 分支的操作
+>>     1. 如上分支操作
+
+> 3. 其他
+> > 
 
 ## 10.Stash (暂存区)
+> 1. 查看
+> >   1. git stash show 指定stash@{n} 显示该暂存简略做了啥，例如增删改查等。
+> >   2. git stash list 显示当前暂存区列表
 
-## 11.配置忽略文件
+> 2. 存储
+> >  1. git stash ,存储本地改变之后的数据，就是未提交的
+> >  2. git stash save [message]， 可传message ，不传默认就是该commit提交注释
 
-## 12.自定义Git配置
 
+> 3. 取出
+> >  1. git stash pop stash@{n} 取出并删除,成功才会删除，出现冲突啥的不会
+> >  2. git stash apply stash@{n} 取出但不删除，需要手动drop
+> >  3. git stash branch <branchname> stash@{n} 将暂存区内容作为新的分支
+
+> 3. 清空
+> >  1. git stash clear 清空暂存区
+> >  3. git stash drop stash@{n} 删除暂存区
+
+> 3. 其他 (没试过)
+> >  1. git stash create [<message>] 
+> >  2. git stash store [-m|--message <message>] [-q|--quiet] <commit>
+
+
+
+
+
+
+
+ git stash list [<options>]
+       git stash show [<stash>]
+       git stash drop [-q|--quiet] [<stash>]
+       git stash ( pop | apply ) [--index] [-q|--quiet] [<stash>]
+       git stash branch <branchname> [<stash>]
+       git stash [save [-p|--patch] [-k|--[no-]keep-index] [-q|--quiet]
+                    [-u|--include-untracked] [-a|--all] [<message>]]
+       git stash clear
+       
+
+## 11.Pull (拉取)
+
+## 12.Push (推送)
+
+## 13.配置忽略文件
+
+## 14.自定义Git配置
+git config gc.pruneexpire "30 days"
+ 
+意思是一个被删除的提交会在删除30天后，且运行 *git gc* 以后，被永久丢弃。
 ## 注：
 >  1.工作区，暂存区，版本库的区别
 > > 版本库：      当前仓库下，如果没有任何的提交，那么版本库就是对应上次提交后的内容。
@@ -177,6 +238,12 @@ http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/
 http://blog.haohtml.com/archives/11464
 
 http://blog.csdn.net/hudashi/article/details/7664460
+
+http://www.cnblogs.com/TerryBlog/archive/2013/03/19/2969283.html
+
+http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/zh_cn/book.html
+
+## 后期扩展 PATCH 与 PGP签名
 
 
 

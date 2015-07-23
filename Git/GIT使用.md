@@ -8,7 +8,15 @@
 *  常用命令整理 [常用命令整理](http://justcoding.iteye.com/blog/1830388)
 *  Git高级 [Git高级使用](http://blog.haohtml.com/archives/11464)
 *  Checkout [Checkout](http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/)
+http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/
 
+http://blog.haohtml.com/archives/11464
+
+http://blog.csdn.net/hudashi/article/details/7664460
+
+http://www.cnblogs.com/TerryBlog/archive/2013/03/19/2969283.html
+
+http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/zh_cn/book.html
 ##1. 下载安装, 见  [Git 有mac安装方式](http://www.cocoachina.com/bbs/read.php?tid=200557)
 
 
