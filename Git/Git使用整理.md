@@ -47,6 +47,7 @@
 > 6.撤销文件修改
 >>      1. git checkout  -- filename  回滚暂存区的提交文件，
 >>      2. git checkout  HEAD(master~) filename  回滚某次提交的文件，可以提交指针，也可以分支提交指针
+>>      3. 
 
 
 > 7.提交到版本库 [(git commit详解)](http://blog.csdn.net/hudashi/article/details/7664409)
@@ -74,7 +75,7 @@
 >>      14. git log --log-size 查看日志大小
 >>      15. git log --tags [tagname] 查看标签的提交日志
 >>      16. git log --date-order 显示提交日志的顺序主要按提交日期来排序,--topo-order 提交(commits)按拓朴顺序来显示(就是子提交在它们的父提交前显示)
->>      17. git log --branches="分支" 可以查看分支的提交日志
+>>      17. git log --branches="分支" 可以查看分支的提交日志,如果没合并看不了,然并卵
 >>      18. gitk  打开图形化界面查看log
 >>      19. git log 分支1..分支2  查看该两个分支还没有合并的提交
 
@@ -107,20 +108,19 @@
 >>      3. git checkout -b [分支名] [远程名]/[分支名] 1.6以上使用 git --track [远程]/[分支名] 本地的分支追踪远程仓库的分支,达到联系
 
 > 5.合并分支(merge)
+>  注: 会生成一个新的节点, 
 >>      1. git merge anothername 讲another合并到当前分支,Fast-forward,也就是直接把master指向dev的当前提交，所以合并速度非常快。
 >>      2. git merge --no-ff -m "comment" anothername,  禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。
 >>      3. git merge --squash 分支名   合并,但不记录合并记录,最好删除本地也删除远程,防止意外
 >>      3. git merge 分支1 分支2 ..    多路合并分支 
 
 > 6.衍合分支(rebase)
->  注:
+>  注: 并不会生成新的节点,同时也能手动控制操作
 >>      1. git rebase [branchname] 衍合其他分支
 >>      2. git rebase --continue 解决完冲突,注意必须标记该文件为解决,  就是继续合并
 >>      3. git rebase --skip 跳过此次合并
 >>      4. git rebase --abort 取消此次合并
-
-> 7.撤销合并
->>      1. git reset --hard HEAD(HEAD~ 上上次, HEAD~n(n代表n次)) 撤销当前合并,暂存区，工作区都修改，指针指向改变
+>>      5. git rebase -i 修改提交,p,r,e,s,f,x
 
 ## 5.合并冲突解决
 > 1.查看差异修改
@@ -134,16 +134,27 @@
 ## 6.Git的维护(gc 与 fsck)
 
 ## 7.Reset (回滚提交) 默认是HEAD
-> 1.充值
->>     1.
+> 注: 重置一般用于重置暂存区,--hard特殊
+> 1.在reset可以遗弃不再使用的提交。执行遗弃时，需要根据影响的范围而指定不同的模式，可以指定是否复原索引或工作树的内容。
+>>     1. git reset --hard HEAD~ (撤销最近的提交,引用回退,工作区,暂存区也回退,git log查看不到,用reflog) 
+>>     2. git reset --soft HEAD~ (引用回退,但工作区内容不改变,暂存区回退,可再次checkout检出)
+>>     3. git reset --mixed HEAD~ (引用回退,但工作区内容不改变,暂存区回退,可再次checkout检出)
+>>     4. git reset -- filename 从暂存区中取消该文件的改动,相当于add的方向操作
 
-## 8.Revert (撤销) 默认是HEA
-> 1.充值
->>     1.
+## 8.Revert (撤销) 
+> 常用于回滚某个commit
+> 1.回滚commit
+>>     1. git revert  [-- | commitid | HEAD],回滚某次提交,与本地工作区进行合并, 也许可能产生冲突,索引不改变,
 
 ## 9.Checkout (检出， 强大)，默认是暂存区
-> 1.充值
->>     1.
+> 注: checkout常用于修改工作区, 改变暂存区,与工作区
+> 1. 撤销,恢复某次提交或者某次提交中
+>>     1. git checkout -- file 从当前版本库检出工作区,(--可以使某次提交,--表示当前HEAD)
+>>     2. git checkout HEAD 直接检出HEAD的提交,HEAD就是当前
+>>     3. git checkout 查看版本库,暂存区,工作区的差异
+>>     4. git checkout branchname HEAD filename 从某个分支某次提交检出某个文件
+>>     5. git checkout tagname 从当前分支上检出tag标识的版本
+>>     6. git checkout 
 
 ## 10.Stash (暂存区)
 
