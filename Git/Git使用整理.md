@@ -1,10 +1,4 @@
-#@Track   7/20/2015 6:58:12 PM
-	git --global user.name "username"  注：1.7以上貌似需要git config --XXX
-	git --global user.email "email"
-	git --global core.autocrlf false
-	git config --global color.ui true
-
-
+#             @Track   24245@163.com   转载请注明来源!
 
 ## 1. 创建篇(Create), Local Or Remote  
  > 1.整个项目克隆下来
@@ -78,6 +72,7 @@
 >>      17. git log --branches="分支" 可以查看分支的提交日志,如果没合并看不了,然并卵
 >>      18. gitk  打开图形化界面查看log
 >>      19. git log 分支1..分支2  查看该两个分支还没有合并的提交
+>>      20. git log -p master..origin/master 比较本地的master分支和origin/master分支的差别
 
 
 > 2.reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录  [查看csdn博客讲解](http://blog.csdn.net/ibingow/article/details/7541402)
@@ -99,6 +94,12 @@
 >>      1. git branch [branchname] 创建本地分支
 >>      2. git push origin [branchname] 创建远程分支
 >>      3. git branch [新分支] commit_id 从已删除回复分支
+>>      4. git branch --set-upstream master origin/next ,将本地本地与远程分支建立联系,默认是与origin/master建立联系的
+
+> 2.1 创建空分支((执行三步命令之前记得先提交你当前分支的修改,否则....)
+>>      1.0 git symbolic-ref HEAD refs/heads/[name]
+>>      1.1 rm .git/index
+>>      1.1 git clean -fdx  
 
 > 3.更名,删除
 >>      1. git branch -d [branchname] 删除本地分支
@@ -121,7 +122,7 @@
 
 > 6.衍合分支(rebase)
 >  注: 并不会生成新的节点,同时也能手动控制操作
->>      1. git rebase [branchname] 衍合其他分支
+>>      1. git rebase [branchname] 衍合本地分支, git rebase origin/master 衍合远程分支
 >>      2. git rebase --continue 解决完冲突,注意必须标记该文件为解决,  就是继续合并
 >>      3. git rebase --skip 跳过此次合并
 >>      4. git rebase --abort 取消此次合并
@@ -129,8 +130,8 @@
 
 ## 5.合并冲突解决
 > 1.查看差异修改
->>      1. git diff [--ours|--theirs] [文件名]  差异比较文件, (比较自己)|(比较合并的) 
->>      2. vim 啥的编辑工具直接修改, 冲突的文件会有分支标识的,
+>>      1. git diff [--ours|--theirs] [文件名]  差异比较文件, (比较自己)|(比较合并的) ,具体请看diff命令
+>>      2. vim 啥的编辑工具直接修改, 冲突的文件会有标记标识的,
 
 > 2.直接二选一
 >>      1. git checkout --ours 文件名 , 直接选择自己的
@@ -175,54 +176,148 @@
 > > 
 
 ## 10.Stash (暂存区)
-> 1. 查看
+> 1.查看
 > >   1. git stash show 指定stash@{n} 显示该暂存简略做了啥，例如增删改查等。
 > >   2. git stash list 显示当前暂存区列表
 
-> 2. 存储
+> 2.存储
 > >  1. git stash ,存储本地改变之后的数据，就是未提交的
 > >  2. git stash save [message]， 可传message ，不传默认就是该commit提交注释
 
 
-> 3. 取出
+> 3.取出
 > >  1. git stash pop stash@{n} 取出并删除,成功才会删除，出现冲突啥的不会
 > >  2. git stash apply stash@{n} 取出但不删除，需要手动drop
 > >  3. git stash branch <branchname> stash@{n} 将暂存区内容作为新的分支
 
-> 3. 清空
+> 3.清空
 > >  1. git stash clear 清空暂存区
 > >  3. git stash drop stash@{n} 删除暂存区
 
-> 3. 其他 (没试过)
+> 3.其他 (没试过)
 > >  1. git stash create [<message>] 
 > >  2. git stash store [-m|--message <message>] [-q|--quiet] <commit>
-
-
-
-
-
-
-
- git stash list [<options>]
-       git stash show [<stash>]
-       git stash drop [-q|--quiet] [<stash>]
-       git stash ( pop | apply ) [--index] [-q|--quiet] [<stash>]
-       git stash branch <branchname> [<stash>]
-       git stash [save [-p|--patch] [-k|--[no-]keep-index] [-q|--quiet]
-                    [-u|--include-untracked] [-a|--all] [<message>]]
-       git stash clear
-       
-
-## 11.Pull (拉取)
-
-## 12.Push (推送)
-
-## 13.配置忽略文件
-
-## 14.自定义Git配置
-git config gc.pruneexpire "30 days"
  
-意思是一个被删除的提交会在删除30天后，且运行 *git gc* 以后，被永久丢弃。
+
+## 11.Pull (拉取) 和 Fetch(取回) 
+> 注1：　fetch比 pull更安全一些因为在merge前，我们可以查看更新情况，然后再决定是否合并
+> 注2:  请看config 中的url配置
+> 1. pull
+>>   1. git pull origin origin:next 取回origin主机的next分支，与本地的master分支合并,
+>>   2. git pull origin master 直接与本地master分支合并
+>>   3. git pull --rebase <远程主机名> <远程分支名>:<本地分支名> 采用rebase方式进行合并
+>>   4. git pull -p 如果远程分支删除了,本地还没删除, 可以使用这个命令进行删除远程已删除分支
+>>   5. git pull git://git..../proj.git master 直接传地址远程master分支与本地分支合并
+
+> 2.fetch
+>>   1.  git fetch --prune origin 同义于 git fetch -p  等同义与 git pull -p, 如果远程分支删除了,本地还没删除, 可以使用这个命令进行删除远程已删除分支
+>>   2. 先 git fetch origin 取回远程分支 ,再git merge origin/next 当前分支与远程next分支进行合并
+>>   3. git fetch origin 默认取回主机左右分支的内容,如果git fetch origin master 指定取回origin/master分支内容,取回之后可以checkout,merge,rebase, 爱咋干就咋整
+## 12.Push (推送)
+> 1.提交
+>>   1. git push origin master 把本地仓库提交到远程仓库的master分支中
+>>   2. git push origin test:master  提交本地test分支作为远程的master分支
+>>   3. git push origin :test         刚提交到远程的test将被删除，但是本地还会保存的，不用担心
+>>   4. git push -f origin master    -f就是强制提交吧, 本地有,远程删除了, 还是啥问题..
+>>   5. git push origin --tags 一次性提交所有标签
+>>   6. git push origin tagname 指定tagname推送
+ 
+## 13. Cherry-pick(挑选)
+> 1. cherry-pick 用于把另一个本地分支的commit修改应用到当前分支。
+>>   1.git cherry-pick $id ,讲$id提交应用于当前分支,出现冲突, 解决冲突, 然后git commit -c (原提交ID),即可!
+
+## 14 remote (远程)
+> 1. 查看
+>>   1. git remote 列出所有远程主机
+>>   2. git remote -v 列出所有远程主机地址
+>>   3. git remote show <主机名> 显示主机的详细信息
+>>   4. git remote -v | --verbose 列出详细信息，在每一个名字后面列出其远程url
+
+> 2. 添加
+>>   1. git remote add origin <repository>  ..   添加远程仓库地址,然后可以pull,push拉
+>>   2. git remote add -o newOrigin <repository>  所使用的远程主机自动被Git命名为origin。如果想用其他的主机名，需要用git clone命令的-o选项指定
+
+> 3. 修改
+>>   1. git remote rename <原主机名> <新主机名> ..  修改主机名,
+>>   2. git remote set-url origin <repository> ..   设置远程仓库地址(用于修改远程仓库地址)  
+
+> 4. 删除
+>>   1. git remote rm <repository>     # 删除远程仓库  
+
+> 5. 设置
+>>   1. git remote set-head origin master    设置远程仓库的HEAD指向master分支  
+
+## 15 clone (克隆)
+> 1. clone
+>>   1. git clone <repository>  Clone远程版本库 
+>>   2. git clone --bare robbin_site robbin_site.git   用带版本的项目创建纯版本仓库
+>>   3. git --bare init example.git 创建远程仓库, 然后可以clone啥的..
+>>   4. git clone  git://github.com/someone/some_project.git   some_project  有一个远程的Git版本库，只需要在本地克隆一份
+
+## 16 tag (标签)
+> 1.查看
+>>   1. git tag  查看当前分支所有标签
+
+> 2.创建
+>>   1. git tag tagname  默认标签是打在最新提交的commit上的
+>>   2. git tag tagname $id 给指定id打上tag
+>>   3. git -a tag -m "注释" tagname , (用-a指定标签名，-m指定说明文字),如果带了-a,-u,-s等参数,就必须要带-m之类的,不然会要手动edit..
+>>   4. git -s tagname $id 创建指定签名的tag对象,签名采用PGP签名，因此，必须首先安装gpg（GnuPG）,可以全局配置
+>>   5. git tag -u <gpg-key-id> tagname $id 如果没有在配置文件中配GPG key,你可以用"-u“ 参数直接指定。
+
+> 3. 删除,更改
+>>   1. git tag -d tagname 本地删除标签
+>>   2. git push origin :refs/tags/tagname  远程删除标签
+
+## 17.配置忽略文件
+* 忽略文件的原则是：
+   * 忽略操作系统自动生成的文件，比如缩略图等；
+   * 忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；
+   * 忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。
+ 
+>>   1. 在工作区根目录下创建.gitignore忽略文件,然后配置,可以参考下网上的[配置](https://github.com/github/gitignore),注意必须gitignore先存在, 然后配置才会生效,,
+
+
+## 18.自定义Git配置
+*  注1: ,当前仓库的配置文件再.git/config ，当前用户配置再.gitconfig
+*  注2:  使用 git config -l 查看所有的配置 
+ * `1.git config  [–-add(添加配置) --get(查看某个配置)  --unset(删除某个配置)] configname 对配置进行增删改查  `
+> 1.初始化配置
+>>   1. git --global user.name "username"  注：1.7以上貌似需要git config --XXX((--global 代表全局))
+>>   2. git --global user.email "email"
+>>   3. git --global core.autocrlf false
+>>   4. git config --global color.ui true 让Git显示颜色，会让命令输出看起来更醒目
+
+> 2.配置别名
+>>   1. git config --global alias.st(别名) status(指令, 两个包含参数用""包裹)
+>>   2. git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  好用的log 配置.. 直接git lg就行了
+
+> 3.配置gc超时时间
+>>   1. git config gc.pruneexpire "30 days" 一个月超时时间..被删除的提交会在删除30天后，且运行 *git gc* 以后，被永久丢弃
+
+> 4.配置默认远程分支,默认合并分支
+>>   1. git config branch.master.remote origin    配置默认远程分支是origin
+>>   2. git config branch.master.merge refs/heads/master 配置本地默认合并分支是master
+
+> 5.配置PGP签名
+>>   1. git config (--global) user.signingkey <gpg-key-id> 配置签名
+
+> 6.配置默认打开的editor
+>>   1.git config --global core.editor "mate -w"    # 设置Editor使用textmate
+
+> 7.配置缓存
+>>   1. git config --global credential.helper cache  配置到缓存 默认15分钟 
+>>   2. git config --global credential.helper 'cache --timeout=3600'  修改缓存时间
+  
+##  19.生成rsa 
+>  1.生成
+>>   1. github的rsa : ssh-keygen -t rsa -C "email" ( [SSH-KEYGEN参数详解](http://killer-jok.iteye.com/blog/1853451)) ,-t指定生成秘钥格式, -C指定说明文字
+
+  
+## 后期扩展 PATCH 与 PGP签名
+ [PATCH教材](http://blog.csdn.net/hudashi/article/details/7669468)
+## Git服务器搭建****
+
 ## 注：
 >  1.工作区，暂存区，版本库的区别
 > > 版本库：      当前仓库下，如果没有任何的提交，那么版本库就是对应上次提交后的内容。
@@ -231,22 +326,26 @@ git config gc.pruneexpire "30 days"
 
 >> 工作区：       我们会想当然的认为，当前仓库所在目录就是我们的工作区，其实这是不完全正确的。在当前仓库中，新增，更改，删除文件这些动作，都发生在工作区里面
 
-
-
+## 总结: 很多挺不错的Git学习blog. 感谢他们的知识分享!
+*   [官方文档](https://www.kernel.org/pub/software/scm/git/docs/git-reset.html)
+*  [Git community book 中文版](http://gitbook.liuhui998.com/index.html)
+*  [廖雪峰大神Git讲解](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000) 
+*   [Git 初体验](http://www.cnblogs.com/BeginMan/p/3543240.html)
+*  [csdn博客   版本控制](http://blog.csdn.net/hudashi/article/category/1122124)
+*   [高富帅玩 git](http://mux.alimama.com/posts/711)
+*   [常用命令整理](http://justcoding.iteye.com/blog/1830388)
+*  [Git高级使用](http://blog.haohtml.com/archives/11464)
+*   [Git Checkout](http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/)
 http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/
-
-http://blog.haohtml.com/archives/11464
-
-http://blog.csdn.net/hudashi/article/details/7664460
-
-http://www.cnblogs.com/TerryBlog/archive/2013/03/19/2969283.html
-
-http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/zh_cn/book.html
-
-## 后期扩展 PATCH 与 PGP签名
-
-
-
+*   [Git Config](http://www.07net01.com/program/39271.html)
+*   [Git 常用命令](http://www.oschina.net/question/565065_86025)
+*   [Git pull fetch区别,中文翻译对照](http://www.oschina.net/translate/git-fetch-and-merge?cmp)
+*  [易百Git的教程](http://www.yiibai.com/git/git_pull.html)
+*   [Git魔法学习](http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/zh_cn/book.html)
+*   [Git使用命令](http://www.cnblogs.com/TerryBlog/archive/2013/03/19/2969283.html)
+*   [Git学历笔记](http://blog.haohtml.com/archives/11464)
+*   [Git reset,Checkout区别](http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/)
+*   [GPG签名学习](http://developer.51cto.com/art/201409/452049.htm)
 
 
 
