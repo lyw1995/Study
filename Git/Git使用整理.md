@@ -1,6 +1,10 @@
 #             @Track   24245@163.com   转载请注明来源!
+* 注1： 若从往下所有命令学习，最后请查阅一定的Git的理论基础，什么Git的优缺点，工作流HEAD，对象等等基础，效果更佳！
+* 注2： 收集整理，一些实践，不敢保证绝对没问题，请看官自行实践出真知，thanks。
 
-## 1. 创建篇(Create), Local Or Remote  
+
+
+## 0. 创建篇(Create), Local Or Remote  
  > 1.整个项目克隆下来
 >>		1.git clone [remoteAddress, ssh or https] 
 
@@ -8,6 +12,14 @@
 >>      1. git init 初始化本地仓库
 >>      2. git remote add [remoteBranch] [remoteAddress]
 >>      3. git pull [-u(是否关联)] [remoteBranch] [localBranch]
+
+## 1. HEAD 
+* 注1： HEAD(大写)是"current branch"(当下的分支)。当你用git checkout切换分支的时候，HEAD 修订版本重新指向新的分支。有的时候HEAD会指向一个没有分支名字的修订版本，这种情况叫”detached HEAD“，head(小写)是commit对象的引用，每个head都有一个名字（分支名字或者标签名字等等）
+* 注2: .“^”代表父提交,当一个提交有多个父提交时，可以通过在”^”后面跟上一个数字，表示第几个父提交，”^”相当于”^1”.~<n>相当于连续的<n>个”^”.
+> 1.查看
+>>     1. cat .git/HEAD 当前HEAD全引用全称
+>>     2. cat .git/refs/heads/master 查看当前HEAD的sha1
+
 
 ## 2. 本地修改状态(Local Changes),
  > 1.查看本地改变的文件状态
@@ -21,7 +33,8 @@
 >>      5. git diff --staged 比较暂存区与工作区的差异,与--cached 同义
 >>      6. git diff HEAD filename  比较HEAD中文件与工作区文件的差异
 >>      7. git diff HEAD 比较HEAD提交的与当前工作区的差异
- 
+>>      8. git diff --name-status 版本1..版本2 显示出版本1，版本2所有变更的文件列表
+
  > 3.添加文件/文件夹  [(git add详解)](http://blog.csdn.net/hudashi/article/details/7664374) ------- [(高富帅们的Git技巧)](http://mux.alimama.com/posts/711)
 >>      1. git add . | git add -A  提交全部
 >>      2. git add -u (untracked的文件不会提交,其他都会)
@@ -73,15 +86,22 @@
 >>      18. gitk  打开图形化界面查看log
 >>      19. git log 分支1..分支2  查看该两个分支还没有合并的提交
 >>      20. git log -p master..origin/master 比较本地的master分支和origin/master分支的差别
-
+>>      21. git log --stat --summary 查看每次提交的变动信息
+>>      22. git log –pretty=raw    查看commit之间的父子关系
 
 > 2.reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录  [查看csdn博客讲解](http://blog.csdn.net/ibingow/article/details/7541402)
 >>      1. git reflog 查看所有分支操作记录, 常用逆转操作，取得HEAD@{index}进行追溯
 >>      2. git reflog show 与git reflog 同义
 
-> 3.show 
+> 3.show 和 cat-file, ls-files,ls-tree
 >>     1. git show [-- | HEAD | $id] ,查看当前后者某次提交的详细数据
 >>     2. git show --stat 若指定该参数，只显示操作详情，如删除几个文件，插入几个文件，不涉及主体内容
+>>     3. git show -s --pretty=raw $id 查看某一个commit对象详细内容（包括：Tree，作者，parent，注释等）
+>>     4. git cat-file type $id 查看指定type（blob，tree）和指定id（文件id），查看内容或者信息
+>>     5. git cat-file -t $id 查看id的类型，例如commit对象 打印除 commit 类型
+>>     6. git show-ref --heads 列出仓库中所有的头
+>>     7. git ls-files --stage 列出索引的内容
+>>     8. git ls-tree $id 查看某一个提交，下面的tree树
 
 ## 4. 分支(branch)  [分支详解](http://blog.jobbole.com/25877/)
 > 1.查看
@@ -147,7 +167,7 @@
 >>      3. git fsck --unreachable 貌似与上面差不多
 
 ## 7.Reset (回滚提交) 默认是HEAD
-> 注: 重置一般用于重置暂存区,--hard特殊, 
+> 注: 重置一般用于重置暂存区,--hard特殊, checkout只会移动HEAD指针，reset会改变HEAD的引用值。
 > 1.在reset可以遗弃不再使用的提交。执行遗弃时，需要根据影响的范围而指定不同的模式，可以指定是否复原索引或工作树的内容。
 >>     1. git reset --hard HEAD~ (撤销最近的提交,引用回退,工作区,暂存区也回退,git log查看不到,用reflog) 
 >>     2. git reset --soft HEAD~ (引用回退,但工作区内容不改变,暂存区回退,可再次checkout检出)
@@ -160,7 +180,7 @@
 >>     1. git revert  [-- | commitid | HEAD],回滚某次提交,与本地工作区进行合并, 也许可能产生冲突,索引不改变,commit记录不改变
 
 ## 9.Checkout (检出， 强大)，默认是暂存区
-> 注: checkout常用于修改工作区, 改变暂存区,与工作区
+> 注: checkout常用于修改工作区, 改变暂存区,与工作区,checkout只会移动HEAD指针，reset会改变HEAD的引用值。
 > 1. 撤销,恢复某次提交或者某次提交中
 >>     1. git checkout -- file 从当前版本库检出工作区,(--可以使某次提交,--表示当前HEAD)
 >>     2. git checkout HEAD 直接检出HEAD的提交,HEAD就是当前
@@ -236,6 +256,7 @@
 > 2. 添加
 >>   1. git remote add origin <repository>  ..   添加远程仓库地址,然后可以pull,push拉
 >>   2. git remote add -o newOrigin <repository>  所使用的远程主机自动被Git命名为origin。如果想用其他的主机名，需要用git clone命令的-o选项指定
+>>   3. git remote add -t BRANCH_NAME_HERE -f origin REMOTE_REPO_URL_PATH_HERE 添加远程中某一个分支为本地分支
 
 > 3. 修改
 >>   1. git remote rename <原主机名> <新主机名> ..  修改主机名,
@@ -255,8 +276,10 @@
 >>   4. git clone  git://github.com/someone/some_project.git   some_project  有一个远程的Git版本库，只需要在本地克隆一份
 
 ## 16 tag (标签)
+> 注：一个标签对象包括一个对象名(译者注:就是SHA1签名), 对象类型, 标签名, 标签创建人的名字("tagger"), 还有一条可能包含有签名(signature)的消息. 
 > 1.查看
 >>   1. git tag  查看当前分支所有标签
+>>   2. git cat-file tag tagname 指定一个标签对象名称查看详细的对象信息
 
 > 2.创建
 >>   1. git tag tagname  默认标签是打在最新提交的commit上的
@@ -279,10 +302,10 @@
 
 
 ## 18.自定义Git配置
-*  注1: ,当前仓库的配置文件再.git/config ，当前用户配置再.gitconfig
-*  注2:  使用 git config -l 查看所有的配置 
+*  注1: ,当前仓库的配置文件再.git/config ，当前用户配置再.gitconfig ，--local  选项是默认选项
+*  注2:  使用 git config -l 查看当前所有的配置 , git config -h 查看所有配置选项帮助
  * `1.git config  [–-add(添加配置) --get(查看某个配置)  --unset(删除某个配置)] configname 对配置进行增删改查  `
-> 1.初始化配置
+> 1.初始化配置，（配置name，email用于commit提交）
 >>   1. git --global user.name "username"  注：1.7以上貌似需要git config --XXX((--global 代表全局))
 >>   2. git --global user.email "email"
 >>   3. git --global core.autocrlf false
@@ -298,12 +321,15 @@
 > 4.配置默认远程分支,默认合并分支
 >>   1. git config branch.master.remote origin    配置默认远程分支是origin
 >>   2. git config branch.master.merge refs/heads/master 配置本地默认合并分支是master
+>>   3. git config branch.BRANCH_NAME_HERE.rebase true  也可以将某条branch(BRANCH_NAME_HERE)配置为总是使用rebase推送：
+
 
 > 5.配置PGP签名
 >>   1. git config (--global) user.signingkey <gpg-key-id> 配置签名
 
 > 6.配置默认打开的editor
->>   1.git config --global core.editor "mate -w"    # 设置Editor使用textmate
+>>   1. git config --global core.editor "mate -w"    # 设置Editor使用textmate
+>>   2. git config --global core.editor vim 设置默认的Editor是vim
 
 > 7.配置缓存
 >>   1. git config --global credential.helper cache  配置到缓存 默认15分钟 
@@ -313,10 +339,46 @@
 >  1.生成
 >>   1. github的rsa : ssh-keygen -t rsa -C "email" ( [SSH-KEYGEN参数详解](http://killer-jok.iteye.com/blog/1853451)) ,-t指定生成秘钥格式, -C指定说明文字
 
+##  20. Tree,Commit,Blog
+* 每个目录都创建了 tree对象 (包括根目录), 每个文件都创建了一个对应的 blob对象 . 最后有一个 commit对象 来指向根tree对象(root of trees), 这样就形成了一个提交对象
+
+##  21. Git引用
+* git中，分支(branch), 远程跟踪分支(remote-tracking branch)以及标签(tag)都是对提交的引用. 所有的引用是用"refs"开头, 以斜杠分割的路径. 到目前为此, 我们用到的引用名称其实是它们的简写版本:
+- 分支"test"是"refs/heads/test"的简写.
+- 标签"v2.6.18"是"refs/tags/v2.6.18"的简写.
+- "origin/master"是"refs/remotes/origin/master"的简写.
+偶尔的情况下全名会比较有用, 例如你的标签和分支重名了, 你应该用全名去区分它们.
+(新创建的引用会依据它们的名字存放在.git/refs目录中. 然而, 为了提高效率, 它们也可能被打包到一个文件中, 参见git pack-refs).
+
+##  22. git grep (检索)
+> 1.搜索
+>>   1. git grep -n -c hello [指定tag，$id,] 检索整个仓库带hello内容文件,-n 带行号参数,-c 包含内容行统计
+>>   2. git grep --name-only hello ,检出整个仓库包含内容hello的文件列表
+>>   3. git grep -e 'haha' --and -e TEST , 使用both（与）条件检索， 包含内容 haha TEST的文件
+>>   4. git grep --all-match -e 'haha' -e TEST,使用either(或)进行条件检索，包含haha 或 TEST的文件
+>>   5. git grep -e 'haha' --and \( -e NIMA -e NIBA \) 检索包含haha并且 NIMA或者NIBA的内容（之一）
+
+##  23. git 导出（export）项目
+> 1.archive
+>>   1. git archive --format=zip --output=tagname.zip tagname 导出指定tagname格式为zip名称为tagname.zip的项目包
+>>   2. git archive tagname | bzip2 > tagname.tar.bz2  导出并压缩成.tag.bz2格式
+>>   3. git archive --format=tar tagname | gzip > tagname.tar.gz 导出并压缩成.tag.gz格式
+>>   4. git archive -o latest.zip HEAD 导出最新zip
+>>   5. git archive -o partial.tar HEAD src doc 导出最新zip，只包含src，doc文件夹
+>>   6. git archive -o ../updated.zip HEAD | (git diff --name-only HEAD^) ，导出当前分支与上个分支修改的文件
+
+## 其他
+* git update-index --assume-unchanged PATH_TO_FILE_HERE 要求git忽视指定文件的变动
+
+## Git索引，Git打包文件，Git对象 
   
 ## 后期扩展 PATCH 与 PGP签名
+ 
  [PATCH教材](http://blog.csdn.net/hudashi/article/details/7669468)
-## Git服务器搭建****
+ [PATCH教程](http://blog.csdn.net/kevinx_xu/article/details/11660915)
+ [GPG签名学习](http://developer.51cto.com/art/201409/452049.htm)
+ 
+## Git服务器搭建
 
 ## 注：
 >  1.工作区，暂存区，版本库的区别
@@ -345,8 +407,8 @@ http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/
 *   [Git使用命令](http://www.cnblogs.com/TerryBlog/archive/2013/03/19/2969283.html)
 *   [Git学历笔记](http://blog.haohtml.com/archives/11464)
 *   [Git reset,Checkout区别](http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/)
-*   [GPG签名学习](http://developer.51cto.com/art/201409/452049.htm)
-
+*   [阿里MUX分享](http://mux.alimama.com/posts/799)
+*   [10个很有用的高级命令](http://www.oschina.net/translate/10-useful-advanced-git-commands?print)
 
 
 
