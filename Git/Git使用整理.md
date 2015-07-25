@@ -13,13 +13,14 @@
 >>      2. git remote add [remoteBranch] [remoteAddress]
 >>      3. git pull [-u(是否关联)] [remoteBranch] [localBranch]
 
-## 1. HEAD 
+## 1. HEAD 与ORIN_HEAD
 * 注1： HEAD(大写)是"current branch"(当下的分支)。当你用git checkout切换分支的时候，HEAD 修订版本重新指向新的分支。有的时候HEAD会指向一个没有分支名字的修订版本，这种情况叫”detached HEAD“，head(小写)是commit对象的引用，每个head都有一个名字（分支名字或者标签名字等等）
 * 注2: .“^”代表父提交,当一个提交有多个父提交时，可以通过在”^”后面跟上一个数字，表示第几个父提交，”^”相当于”^1”.~<n>相当于连续的<n>个”^”.
 > 1.查看
 >>     1. cat .git/HEAD 当前HEAD全引用全称
 >>     2. cat .git/refs/heads/master 查看当前HEAD的sha1
 
+* Git通过记录HEAD指针的上次所在的位置ORIG_HEAD提供了回退的功能。当你发现某些操作失误了，比如错误的reset到了一个很早很早的版本，可以使用 git reset --hard ORIG_HEAD 回退到上一次reset之前。
 
 ## 2. 本地修改状态(Local Changes),
  > 1.查看本地改变的文件状态
@@ -409,6 +410,7 @@ http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/
 *   [Git reset,Checkout区别](http://wbj05791467.blog.163.com/blog/static/120329697201331735158420/)
 *   [阿里MUX分享](http://mux.alimama.com/posts/799)
 *   [10个很有用的高级命令](http://www.oschina.net/translate/10-useful-advanced-git-commands?print)
+*   [Git架构](http://blog.csdn.net/weinianjie1/article/details/8947966)
 
 
 
