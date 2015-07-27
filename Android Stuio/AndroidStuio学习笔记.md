@@ -63,8 +63,17 @@
 >>   1. [百度经验](http://jingyan.baidu.com/article/574c5219ce55e96c8d9dc105.html)，自己也可以网上找找咯。
 
 ## 5. Android Studio Gradle基础(整个项目以Project视图)
+> 什么是Gradle`(1)`,他的特点是什么`(2-7)`?
+>> 1. Gradle 是一个先进的构建系统和构建工具，它允许通过插件创建自定义的构建逻辑。
+>> 2. 使用域特定语言 （DSL） 来描述和处理构建逻辑.
+>> 3. 构建文件基于 Groovy ，并允许通过 DSL来混合声明性元素，以及使用代码来处理 DSL 元素以提供自定义逻辑。
+>> 4. 基于 Maven 和 Ivy 的内置依赖管理。
+>> 5. 非常灵活。允许使用最佳实现，但并不强制自己的实现方式。
+>> 6. 插件可以提供自己的 DSL 和API供构建文件使用。
+>> 7. 良好的Tooling API 供 IDE 集成
+
 > 1.application,library,的build.gradle (Module)
-)>> 
+>>  aa
 
 > 2.Android整个项目的build.gradle
 >> 
@@ -143,6 +152,7 @@ http://stackoverflow.com/questions/18328730/how-to-create-a-release-signed-apk-f
 https://github.com/ihrthk/android-gradle-mulchannel-plugin
 https://dzone.com/refcardz/mvvm-design-pattern-formula
 https://dzone.com/refcardz/android-application
+https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.repositories.IvyArtifactRepository.html
 
 
 
