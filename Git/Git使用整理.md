@@ -264,7 +264,7 @@
 >>   2. git remote set-url origin <repository> ..   设置远程仓库地址(用于修改远程仓库地址)  
 
 > 4. 删除
->>   1. git remote rm <repository>     # 删除远程仓库  
+>>   1. git remote remove  name     # 删除远程仓库  
 
 > 5. 设置
 >>   1. git remote set-head origin master    设置远程仓库的HEAD指向master分支  

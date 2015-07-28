@@ -68,7 +68,9 @@
 >> 2. 使用域特定语言 （DSL） 来描述和处理构建逻辑.
 >> 3. 构建文件基于 Groovy ，并允许通过 DSL来混合声明性元素，以及使用代码来处理 DSL 元素以提供自定义逻辑。
 >> 4. 基于 Maven 和 Ivy 的内置依赖管理。
->> 5. 非常灵活。允许使用最佳实现，但并不强制自己的实现方式。
+>> 5. 非常灵活。允许使用最佳实现，但并不强制自己的实现方式。+
+
+																																																																																																																																																																																						
 >> 6. 插件可以提供自己的 DSL 和API供构建文件使用。
 >> 7. 良好的Tooling API 供 IDE 集成
 
@@ -76,7 +78,7 @@
 >>  aa
 
 > 2.Android整个项目的build.gradle
->> 
+>> ![](/images/project_build.png)
 >> 内容主要包含了两个方面：一个是声明仓库的源，这里可以看到是指明的jcenter(), 之前版本则是mavenCentral(), jcenter可以理解成是一个新的中央远程仓库，兼容maven中心仓库，而且性能更优。另一个是声明了android gradle plugin的版本，android studio 1.0正式版必须要求支持gradle plugin 1.0的版本。
 
 > 3.Gradle配置再,gradle/wrapper/gradle-wrapper.properties
@@ -84,7 +86,7 @@
 >> 可以看到里面声明了gradle的目录与下载路径以及当前项目使用的gradle版本，这些默认的路径我们一般不会更改的，这个文件里指明的gradle版本不对也是很多导包不成功的原因之一。
 
 > 4.settings.gradle
->> 
+>> ![](/images/project_setting.png)
 >> 这个文件是全局的项目配置文件，里面主要声明一些需要加入gradle的module，include ':app', ':extras:ShimmerAndroid'
 文件中的 app, extras:ShimmerAndroid 都是module，如果还有其他module都需要按照如上格式加进去。
 
@@ -153,6 +155,8 @@ https://github.com/ihrthk/android-gradle-mulchannel-plugin
 https://dzone.com/refcardz/mvvm-design-pattern-formula
 https://dzone.com/refcardz/android-application
 https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.repositories.IvyArtifactRepository.html
+http://www.it165.net/pro/html/201407/17686.html
+https://github.com/ShinChven/MigrateToGradle
 
 
 
