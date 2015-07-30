@@ -68,14 +68,14 @@
 >> 2. 使用域特定语言 （DSL） 来描述和处理构建逻辑.
 >> 3. 构建文件基于 Groovy ，并允许通过 DSL来混合声明性元素，以及使用代码来处理 DSL 元素以提供自定义逻辑。
 >> 4. 基于 Maven 和 Ivy 的内置依赖管理。
->> 5. 非常灵活。允许使用最佳实现，但并不强制自己的实现方式。+
-
-																																																																																																																																																																																						
+>> 5. 非常灵活。允许使用最佳实现，但并不强制自己的实现方式。										
 >> 6. 插件可以提供自己的 DSL 和API供构建文件使用。
 >> 7. 良好的Tooling API 供 IDE 集成
 
 > 1.application,library,的build.gradle (Module)
->>  aa
+>>  ![](/images/app_config_1.png)
+>>  ![](/images/app_config_2.png)
+>>  ![](/images/app_config_3.png)
 
 > 2.Android整个项目的build.gradle
 >> ![](/images/project_build.png)
@@ -115,7 +115,12 @@
 > 7.卸载发布包
 >>   1. ./gradlew uninstallRelease
 
-> 8.渠道打包
+> 8. 让Gradle自动生成Intellij的项目文件，需要使用idea插件,或者eclipse项目
+>>   1. gradle cleanIdea idea 可以清除已有的Intellij项目文件
+>>   2. gradle idea 生成Intellij项目文件
+>>   2. gradle eclipse 生成Eclipse项目文件
+
+> 9.渠道打包
 >>   1. ./gradlew assembleWandoujiaRelease 打包wandoujia渠道的release版本
 >>   2. ./gradlew assembleWandoujia 生成wandoujia渠道的Release和Debug版本
 >>   3. ./gradlew assembleRelease 将Product Flavor下的所有渠道的Release版本都打出来。
@@ -126,7 +131,7 @@
 >> **assemble**： 允许构建指定flavor的所有APK，例如assembleFlavor1将会构建Flavor1Debug和Flavor1Release两个Variant版本。
 
 ## 生成aar，并导入
-目前android gradle插件并不支持本地直接使用*.aar文件，不过，支持包管理库
+* 目前android gradle插件并不支持本地直接使用*.aar文件，不过，支持包管理库
 Warning:Project app: Only Jar-type local dependencies are supported. 
 
 
@@ -157,7 +162,10 @@ https://dzone.com/refcardz/android-application
 https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.repositories.IvyArtifactRepository.html
 http://www.it165.net/pro/html/201407/17686.html
 https://github.com/ShinChven/MigrateToGradle
-
+https://linux.cn/article-4046-1.html
+http://www.geekcome.com/content-10-2336-1.html
+http://www.cnblogs.com/xrwang/p/AndroidStudioImportJarAndSoLibrary.html
+http://blog.csdn.net/look_down/article/details/16370615
 
 
 
