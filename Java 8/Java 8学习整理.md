@@ -18,8 +18,6 @@
 >> Functional Interfaces 是一个只有单个方法的接口，这代表了这个方法契约。
 
 
-
-
 http://winterbe.com/posts/2014/03/16/java-8-tutorial/
 http://openjdk.java.net/projects/lambda/
 http://cr.openjdk.java.net/~briangoetz/lambda/sotc3.html
