@@ -76,6 +76,7 @@
 >>  ![](/images/app_config_1.png)
 >>  ![](/images/app_config_2.png)
 >>  ![](/images/app_config_3.png)
+>>  单独的导入一个jar包. 使用 ` compile files('libs/nineoldandroids-2.4.0.jar')` ,如果是一个library ,使用 `compile project(':library'<全称,例如(:pulltorefersh,或者:fersco:library>)`
 
 > 2.Android整个项目的build.gradle
 >> ![](/images/project_build.png)
@@ -131,6 +132,19 @@
 * 目前android gradle插件并不支持本地直接使用*.aar文件，不过，支持包管理库
 Warning:Project app: Only Jar-type local dependencies are supported. 
 
+## 导入Eclipse项目
+> 1.导入
+>>  ![](/images/importEclipse_1.png)
+>>  ![](/images/importEclipse_2.png)
+>>  ![](/images/importEclipse_3.png)
+>
+> 2.小tips
+>>  1. 单独的导入一个jar包. 使用 ` compile files('libs/nineoldandroids-2.4.0.jar')` ,如果是一个library ,使用 `compile project(':library'<全称,例如(:pulltorefersh,或者:fersco:library>)`
+
+## Android Studio支持 java8 Lambda [lambda support for android](http://zserge.com/blog/android-lambda.html)
+> 1. 配置build.gradle
+>>  ![](/images/lambda_1.png)
+>>  ![](/images/lambda_2.png)
 
 
 http://www.csdn123.com/html/topnews201408/47/4447.htm
@@ -164,20 +178,7 @@ http://www.geekcome.com/content-10-2336-1.html
 http://www.cnblogs.com/xrwang/p/AndroidStudioImportJarAndSoLibrary.html
 http://blog.csdn.net/look_down/article/details/16370615
 [Lint错误](http://mikewang.blog.51cto.com/3826268/1003276)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+http://blog.csdn.net/sodino/article/details/41946607
+http://zserge.com/blog/android-lambda.html
 
 
