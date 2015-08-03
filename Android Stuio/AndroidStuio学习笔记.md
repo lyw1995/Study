@@ -73,13 +73,13 @@
 >> 7. 良好的Tooling API 供 IDE 集成
 
 > 1.application,library,的build.gradle (Module)
->>  ![](/images/app_config_1.png)
->>  ![](/images/app_config_2.png)
->>  ![](/images/app_config_3.png)
+>>  ![](./images/app_config_1.png)
+>>  ![](./images/app_config_2.png)
+>>  ![](./images/app_config_3.png)
 >>  单独的导入一个jar包. 使用 ` compile files('libs/nineoldandroids-2.4.0.jar')` ,如果是一个library ,使用 `compile project(':library'<全称,例如(:pulltorefersh,或者:fersco:library>)`
 
 > 2.Android整个项目的build.gradle
->> ![](/images/project_build.png)
+>> ![](./images/project_build.png)
 >> 内容主要包含了两个方面：一个是声明仓库的源，这里可以看到是指明的jcenter(), 之前版本则是mavenCentral(), jcenter可以理解成是一个新的中央远程仓库，兼容maven中心仓库，而且性能更优。另一个是声明了android gradle plugin的版本，android studio 1.0正式版必须要求支持gradle plugin 1.0的版本。
 
 > 3.Gradle配置再,gradle/wrapper/gradle-wrapper.properties
@@ -87,7 +87,7 @@
 >> 可以看到里面声明了gradle的目录与下载路径以及当前项目使用的gradle版本，这些默认的路径我们一般不会更改的，这个文件里指明的gradle版本不对也是很多导包不成功的原因之一。
 
 > 4.settings.gradle
->> ![](/images/project_setting.png)
+>> ![](./images/project_setting.png)
 >> 这个文件是全局的项目配置文件，里面主要声明一些需要加入gradle的module，include ':app', ':extras:ShimmerAndroid'
 文件中的 app, extras:ShimmerAndroid 都是module，如果还有其他module都需要按照如上格式加进去。
 
@@ -134,17 +134,17 @@ Warning:Project app: Only Jar-type local dependencies are supported.
 
 ## 导入Eclipse项目
 > 1.导入
->>  ![](/images/importEclipse_1.png)
->>  ![](/images/importEclipse_2.png)
->>  ![](/images/importEclipse_3.png)
+>>  ![](./images/importEclipse_1.png)
+>>  ![](./images/importEclipse_2.png)
+>>  ![](./images/importEclipse_3.png)
 >
 > 2.小tips
 >>  1. 单独的导入一个jar包. 使用 ` compile files('libs/nineoldandroids-2.4.0.jar')` ,如果是一个library ,使用 `compile project(':library'<全称,例如(:pulltorefersh,或者:fersco:library>)`
 
 ## Android Studio支持 java8 Lambda [lambda support for android](http://zserge.com/blog/android-lambda.html)
 > 1. 配置build.gradle
->>  ![](/images/lambda_1.png)
->>  ![](/images/lambda_2.png)
+>>  ![](./images/lambda_1.png)
+>>  ![](./images/lambda_2.png)
 
 
 http://www.csdn123.com/html/topnews201408/47/4447.htm
