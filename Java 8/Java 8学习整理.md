@@ -20,8 +20,6 @@
 
 
 
-
-
 http://winterbe.com/posts/2014/03/16/java-8-tutorial/
 http://openjdk.java.net/projects/lambda/
 http://cr.openjdk.java.net/~briangoetz/lambda/sotc3.html
