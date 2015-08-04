@@ -30,3 +30,12 @@ http://www.oschina.net/question/82993_74395
 http://www.iteye.com/topic/1127931
 http://www.java3z.com/cwbwebhome/article/article20/200102.html?id=4969
 http://www.cnblogs.com/figure9/archive/2014/10/24/4048421.html
+http://blog.csdn.net/renfufei/article/details/24600507
+http://www.importnew.com/11908.html
+http://ifeve.com/stream/
+http://www.javacodegeeks.com/2013/06/java-8-lambda-walkthrough.html
+http://ifeve.com/java-7%E4%B8%AD%E7%9A%84try-with-resources/
+http://ifeve.com/processing-data-with-java-se-8-streamspart-1/
+http://ifeve.com/20-examples-of-date-and-time-api-from-java8/
+http://www.importnew.com/6675.html
+
